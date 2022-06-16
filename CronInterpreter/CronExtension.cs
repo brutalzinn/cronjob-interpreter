@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CronInterpreter
 {
-    public static class Extension
+    public static class CronExtension
     {
 
-        public static IEnumerable<double?> FilterValueListSeparator(this string value, char seperator, DateTime date)
+        public static IEnumerable<double?> NextValueListSeparator(this string value, char seperator, DateTime date)
         {
-            var listaMinutos = value.Split(seperator).Select(e => double.Parse(e) as double?);
+            var listaMinutos = value.Split(seperator).Select(e => e.ToDouble());
+
             return listaMinutos.Where(item => item > date.Minute).ToList().OrderBy(d => d).ToList();
         }
 
-        public static IEnumerable<double?> FilterRangeOfValues(this string value, char seperator, DateTime date)
+        public static IEnumerable<double?> NextRangeOfValues(this string value, char seperator, DateTime date)
         {
-            var listaMinutos = value.Split(seperator).Select(e => int.Parse(e)).OrderBy(d => d).ToList();
+            var listaMinutos = value.Split(seperator).Select(e => e.ToInt()).OrderBy(d => d).ToList();
 
             var primeiroMinuto = listaMinutos.First();
             var ultimoMinuto = listaMinutos.Last();
@@ -27,7 +26,7 @@ namespace CronInterpreter
             return data.Select(e => (double?)e).ToList();
         }
 
-        public static IEnumerable<double?> FilterStepValues(this string value, char seperator, DateTime date)
+        public static IEnumerable<double?> NextStepValues(this string value, char seperator, DateTime date)
         {
             var listaMinutos = value.Split(seperator).ToList();
 
@@ -38,12 +37,5 @@ namespace CronInterpreter
 
             return data.Select(e => (double?)e).ToList();
         }
-        private static int ToInt(this string value)
-        {
-            int resultado = 0;
-            int.TryParse(value, out resultado);
-            return resultado;
-        }
-
     }
 }

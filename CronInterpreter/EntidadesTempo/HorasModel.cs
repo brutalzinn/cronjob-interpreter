@@ -25,15 +25,15 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    horas = HorasChar.FilterValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    horas = HorasChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.RangeOfValues:
-                    horas = HorasChar.FilterRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    horas = HorasChar.NextRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.StepValues:
-                    horas = HorasChar.FilterStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    horas = HorasChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
                 default:
                     horas = double.Parse(HorasChar);

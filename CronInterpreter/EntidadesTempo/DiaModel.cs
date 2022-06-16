@@ -26,15 +26,15 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    dias = DiaMesChar.FilterValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.RangeOfValues:
-                    dias = DiaMesChar.FilterRangeOfValues(RangeOfValues,ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextRangeOfValues(RangeOfValues,ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.StepValues:
-                    dias = DiaMesChar.FilterStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                     break;
                 default:
                     dias = double.Parse(DiaMesChar);

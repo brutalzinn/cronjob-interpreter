@@ -8,7 +8,7 @@ namespace CronInterpreter
     {
         static void Main(string[] args)
         {
-            var crontab = "*/15 * * * *";
+            var crontab = "* * * * *";
             var dateTimeInicial = DateTime.Now;
 
             Console.WriteLine("Inicio");

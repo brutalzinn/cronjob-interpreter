@@ -27,15 +27,15 @@ namespace CronInterpreter.EntidadesTempo
                 break;
 
                 case CronType.ValueListSeperator:
-                    minutes = MinutosChar.FilterValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 case CronType.RangeOfValues:
-                    minutes = MinutosChar.FilterRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 case CronType.StepValues:
-                    minutes = MinutosChar.FilterStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 default:
