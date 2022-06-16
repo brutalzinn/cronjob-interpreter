@@ -9,5 +9,5 @@ E foi baseado na regra descrita em: https://crontab.guru/
 
 O objetivo é interpretar uma string como o exemplo "* * * * *" para executar tarefas repetitivas.
 
-Onde minuto hora dia mes dia-da-semana são separados por espaço podem ser interpretados para aderir.
+Onde minuto hora dia mes dia-da-semana são separados por espaço e podem ser interpretados para uma regra de negócio específica.
 
