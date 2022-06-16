@@ -21,8 +21,6 @@ namespace CronInterpreter.EntidadesTempo
 
         protected CronType ObterTipo(string value)
         {
-            if (value.Contains(AnyValue))
-                return CronType.AnyValue;
 
             if (value.Contains(ValueListSeperator))
                 return CronType.ValueListSeperator;
@@ -32,6 +30,9 @@ namespace CronInterpreter.EntidadesTempo
 
             if (value.Contains(StepValues))
                 return CronType.StepValues;
+
+            if (value.Contains(AnyValue))
+                return CronType.AnyValue;
 
             return CronType.CUSTOM;
         }

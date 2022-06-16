@@ -29,14 +29,20 @@ namespace CronInterpreter
 
         public static IEnumerable<double?> FilterStepValues(this string value, char seperator, DateTime date)
         {
-            var listaMinutos = value.Split(seperator).Select(e => int.Parse(e)).OrderBy(d => d).ToList();
+            var listaMinutos = value.Split(seperator).ToList();
 
-            var inicioMinuto = listaMinutos.First();
-            var posicaoMinuto = listaMinutos.Last();
+            int inicioMinuto = listaMinutos.First() != "*" ? listaMinutos.First().ToInt() : 1;
+            int posicaoMinuto = listaMinutos.Last().ToInt();
 
-            var data = Enumerable.Range(inicioMinuto, 59).Where((item, i) => i % posicaoMinuto == 0);
+            var data = Enumerable.Range(inicioMinuto, 59).Where((item, i) => item > date.Minute && i % posicaoMinuto == 0);
 
             return data.Select(e => (double?)e).ToList();
+        }
+        private static int ToInt(this string value)
+        {
+            int resultado = 0;
+            int.TryParse(value, out resultado);
+            return resultado;
         }
 
     }
