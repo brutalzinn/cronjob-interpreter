@@ -18,5 +18,22 @@ namespace CronInterpreter.EntidadesTempo
         {
 
         }
+
+        protected CronType ObterTipo(string value)
+        {
+            if (value.Contains(AnyValue))
+                return CronType.AnyValue;
+
+            if (value.Contains(ValueListSeperator))
+                return CronType.ValueListSeperator;
+
+            if (value.Contains(RangeOfValues))
+                return CronType.RangeOfValues;
+
+            if (value.Contains(StepValues))
+                return CronType.StepValues;
+
+            return CronType.CUSTOM;
+        }
     }
 }

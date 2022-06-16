@@ -8,7 +8,7 @@ namespace CronInterpreter
     {
         static void Main(string[] args)
         {
-            var crontab = "* 1 * * *";
+            var crontab = "* * * * *";
             var dateTimeInicial = DateTime.Now;
             Console.WriteLine("Inicio");
             Console.WriteLine(dateTimeInicial);
@@ -16,7 +16,7 @@ namespace CronInterpreter
 
             while (true)
             {
-                var teste = new CronJob(crontab, dateTimeInicial);
+                var teste = new CronJob(crontab, DateTime.Now);
                 Console.WriteLine(teste.NovoDateTime);
 
                 Thread.Sleep(500);
