@@ -1,0 +1,16 @@
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.exe
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.deps.json
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.runtimeconfig.json
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.runtimeconfig.dev.json
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.dll
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\bin\Debug\net5.0\CronInterpreter.pdb
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.csproj.AssemblyReference.cache
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.AssemblyInfoInputs.cache
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.AssemblyInfo.cs
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.csproj.CoreCompileInputs.cache
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.dll
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\refint\CronInterpreter.dll
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.pdb
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\CronInterpreter.genruntimeconfig.cache
+C:\Users\gedeo\source\repos\CronInterpreter\CronInterpreter\obj\Debug\net5.0\ref\CronInterpreter.dll
