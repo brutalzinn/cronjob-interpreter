@@ -12,7 +12,7 @@ namespace CronInterpreter.EntidadesTempo
 
         public MinutosModel(string cronjob, DateTime dateInicio)
         {
-            MinutosChar = cronjob.Split(' ')[0];
+            MinutosChar = cronjob.Split(SpaceSeparator)[0];
             ProximoDisparo = dateInicio;
         }
 
@@ -27,15 +27,15 @@ namespace CronInterpreter.EntidadesTempo
                 break;
 
                 case CronType.ValueListSeperator:
-                    minutes = MinutosChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextValueListSeparator(ValueListSeperator, item=> item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 case CronType.RangeOfValues:
-                    minutes = MinutosChar.NextRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextRangeOfValues(RangeOfValues, item => item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 case CronType.StepValues:
-                    minutes = MinutosChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    minutes = MinutosChar.NextStepValues(StepValues, item => item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
                 break;
 
                 default:

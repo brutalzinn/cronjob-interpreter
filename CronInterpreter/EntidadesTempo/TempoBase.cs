@@ -12,6 +12,7 @@ namespace CronInterpreter.EntidadesTempo
         protected static char ValueListSeperator = ',';
         protected static char RangeOfValues = '-';
         protected static char StepValues = '/';
+        protected static char SpaceSeparator = ' ';
         public DateTime ProximoDisparo { get; set; }
 
         protected TempoBase()

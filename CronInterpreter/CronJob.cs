@@ -22,7 +22,7 @@ namespace CronInterpreter
             Minutos = new MinutosModel(cronjob, dateInicio).CalcularProximaDateTime();
             Horas = new HorasModel(cronjob, dateInicio).CalcularProximaDateTime();
             Dias = new DiaModel(cronjob, dateInicio).CalcularProximaDateTime();
-
+            //cuidado aqui...
             NovoDateTime = new DateTime(year: Dias.Year, month:Dias.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0);
         }
 

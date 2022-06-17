@@ -26,21 +26,24 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    dias = DiaMesChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextValueListSeparator(ValueListSeperator, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
                     break;
 
                 case CronType.RangeOfValues:
-                    dias = DiaMesChar.NextRangeOfValues(RangeOfValues,ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextRangeOfValues(RangeOfValues, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
                     break;
 
                 case CronType.StepValues:
-                    dias = DiaMesChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    dias = DiaMesChar.NextStepValues(StepValues, item=> item > ProximoDisparo.Day, ProximoDisparo.GetMonthDays()).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
                     break;
                 default:
-                    dias = double.Parse(DiaMesChar);
+                    ProximoDisparo = new DateTime(ProximoDisparo.Date.Year, month: ProximoDisparo.Date.Month, day: DiaMesChar.ToInt());
                     break;
             }
-            ProximoDisparo = ProximoDisparo.AddDays(dias);
+            
             return ProximoDisparo;
         }
 

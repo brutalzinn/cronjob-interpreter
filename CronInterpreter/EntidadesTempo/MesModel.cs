@@ -26,15 +26,15 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    mes = MesChar.NextValueListSeparator(ValueListSeperator, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    mes = MesChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.RangeOfValues:
-                    mes = MesChar.NextRangeOfValues(RangeOfValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    mes = MesChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
                     break;
 
                 case CronType.StepValues:
-                    mes = MesChar.NextStepValues(StepValues, ProximoDisparo).FirstOrDefault().GetValueOrDefault();
+                    mes = MesChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
                     break;
 
             }
