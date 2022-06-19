@@ -62,9 +62,15 @@ namespace CronInterpreter
             return DateTime.DaysInMonth(dateTime.Date.Year, dateTime.Date.Month);
         }
 
-        public static DateTime CreateProximoDisparoWithDays(this DateTime dateTime, int days)
+        public static DateTime CreateNextDispatch(this DateTime dateTime, int? days = null, int? month = null, int? year = null, int? hours = null, int? minute = null, int? second = null)
         {
-            return new DateTime(dateTime.Date.Year, month: dateTime.Date.Month, day: days);
+            return new DateTime(year.GetValueOrDefault(dateTime.Date.Year), month.GetValueOrDefault(dateTime.Date.Month), days.GetValueOrDefault(dateTime.Date.Day), hours.GetValueOrDefault(dateTime.Date.Hour), minute.GetValueOrDefault(dateTime.Date.Minute), second.GetValueOrDefault(dateTime.Date.Second));
+        }
+        //https://stackoverflow.com/questions/6346119/datetime-get-next-tuesday
+        public static DateTime GetNextWeekday(this DateTime dateTime, DayOfWeek day)
+        {
+            int daysToAdd = ((int)day - (int)dateTime.DayOfWeek + 7) % 7;
+            return dateTime.AddDays(daysToAdd);
         }
     }
 }

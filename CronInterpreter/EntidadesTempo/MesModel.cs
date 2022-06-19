@@ -22,23 +22,29 @@ namespace CronInterpreter.EntidadesTempo
             switch (ObterTipo(MesChar))
             {
                 case CronType.AnyValue:
-                    mes = 1;
+                    //mes = 0;
+                    //ProximoDisparo = ProximoDisparo.CreateNextDispatch(month: (int)mes);
                     break;
 
                 case CronType.ValueListSeperator:
                     mes = MesChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(month:(int)mes);
                     break;
 
                 case CronType.RangeOfValues:
                     mes = MesChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(month: (int)mes);
                     break;
 
                 case CronType.StepValues:
                     mes = MesChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(month: (int)mes);
                     break;
 
+                default:
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(ProximoDisparo.Date.Day, MesChar.ToInt(), ProximoDisparo.Date.Year);
+                    break;
             }
-            ProximoDisparo = ProximoDisparo.AddMonths((int)mes);
             return ProximoDisparo;
         }
     }

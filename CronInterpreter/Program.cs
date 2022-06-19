@@ -8,21 +8,21 @@ namespace CronInterpreter
     {
         static void Main(string[] args)
         {
-            //minuto, hora, dia
-            var crontab = "* * 16,18,25,26 * *";
+            //minuto, hora, dia, mês, dia da semana
+            var crontab = "* * * * *";
             var dateTimeInicial = DateTime.Now;
 
             Console.WriteLine("Inicio");
             Console.WriteLine(dateTimeInicial);
             Console.WriteLine("---");
 
-            while (true)
-            {
-                var teste = new CronJob(crontab, DateTime.Now);
-                Console.WriteLine(teste.NovoDateTime);
+         //   while (true)
+        //    {
+            var teste = new CronJob(crontab, DateTime.Now);
+            Console.WriteLine(teste.NovoDateTime);
 
-                Thread.Sleep(1000);
-            }
+              //  Thread.Sleep(1000);
+         //   }
         }
     }
 }

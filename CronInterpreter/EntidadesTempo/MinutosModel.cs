@@ -23,27 +23,34 @@ namespace CronInterpreter.EntidadesTempo
             switch (ObterTipo(MinutosChar))
             {
                 case CronType.AnyValue:
-                    minutes = 1;
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: ProximoDisparo.Minute + 1);
                 break;
 
                 case CronType.ValueListSeperator:
                     minutes = MinutosChar.NextValueListSeparator(ValueListSeperator, item=> item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
-                break;
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: (int)minutes);
+
+                    break;
 
                 case CronType.RangeOfValues:
                     minutes = MinutosChar.NextRangeOfValues(RangeOfValues, item => item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
-                break;
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: (int)minutes);
+
+                    break;
 
                 case CronType.StepValues:
                     minutes = MinutosChar.NextStepValues(StepValues, item => item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
-                break;
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: (int)minutes);
+
+                    break;
 
                 default:
                     minutes = double.Parse(MinutosChar);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: (int)minutes);
+
                 break;
             }
             
-            ProximoDisparo = ProximoDisparo.AddMinutes(minutes);
             return ProximoDisparo;
         }
 

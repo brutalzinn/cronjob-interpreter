@@ -30,26 +30,29 @@ namespace CronInterpreter.EntidadesTempo
                 switch (ObterTipo(DiaSemanaChar))
                 {
                     case CronType.AnyValue:
-                        dias = 0;
+                        //dias = 0;
                         break;
 
                     case CronType.ValueListSeperator:
                         dias = DiaSemanaChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                        ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
 
                     case CronType.RangeOfValues:
                         dias = DiaSemanaChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                        ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
 
                     case CronType.StepValues:
                         dias = DiaSemanaChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                        ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
+
                     default:
                         dias = double.Parse(DiaSemanaChar);
+                        ProximoDisparo = ProximoDisparo.GetNextWeekday((DayOfWeek)dias.ToInt());
                         break;
                 }
-                var diff = (int)ProximoDisparo.DayOfWeek - dias;
-                ProximoDisparo = ProximoDisparo.AddDays(diff);
                 return ProximoDisparo;
             }
 

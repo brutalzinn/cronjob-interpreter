@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CronInterpreter.EntidadesTempo.CronInterpreter.EntidadesTempo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,25 +23,26 @@ namespace CronInterpreter.EntidadesTempo
             switch (ObterTipo(DiaMesChar))
             {
                 case CronType.AnyValue:
-                    dias = 0;
+                   // dias = 0;
+                   // ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
 
                 case CronType.ValueListSeperator:
                     dias = DiaMesChar.NextValueListSeparator(ValueListSeperator, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
-                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
 
                 case CronType.RangeOfValues:
                     dias = DiaMesChar.NextRangeOfValues(RangeOfValues, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
-                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
 
                 case CronType.StepValues:
                     dias = DiaMesChar.NextStepValues(StepValues, item=> item > ProximoDisparo.Day, ProximoDisparo.GetMonthDays()).FirstOrDefault().GetValueOrDefault();
-                    ProximoDisparo = ProximoDisparo.CreateProximoDisparoWithDays((int)dias);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
                 default:
-                    ProximoDisparo = new DateTime(ProximoDisparo.Date.Year, month: ProximoDisparo.Date.Month, day: DiaMesChar.ToInt());
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(DiaMesChar.ToInt(), ProximoDisparo.Date.Month, ProximoDisparo.Date.Year);
                     break;
             }
             

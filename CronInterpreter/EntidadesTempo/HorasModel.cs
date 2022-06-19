@@ -21,26 +21,31 @@ namespace CronInterpreter.EntidadesTempo
             switch (ObterTipo(HorasChar))
             {
                 case CronType.AnyValue:
-                    horas = 0;
-                    break;
+                   // ProximoDisparo.CreateNextDispatch(hours: (int)horas);
+                break;
 
                 case CronType.ValueListSeperator:
                     horas = HorasChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
                 case CronType.RangeOfValues:
                     horas = HorasChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
                 case CronType.StepValues:
                     horas = HorasChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
+
                 default:
                     horas = double.Parse(HorasChar);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
             }
-            ProximoDisparo = ProximoDisparo.AddHours(horas);
+        
             return ProximoDisparo;
         }
     }
