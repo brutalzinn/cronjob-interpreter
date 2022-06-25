@@ -8,39 +8,39 @@ namespace CronInterpreter.EntidadesTempo
 {
     public class HorasModel : TempoBase
     {
-        private string HorasChar { get; set; }
+        private CronStruct CronString { get; set; }
         public HorasModel(string cronjob, DateTime dateInicio)
         {
-            HorasChar = cronjob.Split(' ')[1];
+            CronString = new CronStruct(cronjob);
             ProximoDisparo = dateInicio;
         }
 
         public DateTime CalcularProximaDateTime()
         {
             double horas = 0;
-            switch (ObterTipo(HorasChar))
+            switch (CronString.GetType(CronString.Hours))
             {
                 case CronType.AnyValue:
                    // ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                 break;
 
                 case CronType.ValueListSeperator:
-                    horas = HorasChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                    horas = CronString.Hours.NextValueListSeparator(CronStruct.ValueListSeperator).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
                 case CronType.RangeOfValues:
-                    horas = HorasChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                    horas = CronString.Hours.NextRangeOfValues(CronStruct.RangeOfValues).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
                 case CronType.StepValues:
-                    horas = HorasChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                    horas = CronString.Hours.NextStepValues(CronStruct.StepValues).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 
                 default:
-                    horas = double.Parse(HorasChar);
+                    horas = double.Parse(CronString.Hours);
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(hours: (int)horas);
                     break;
 

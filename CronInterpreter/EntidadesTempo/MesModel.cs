@@ -8,18 +8,18 @@ namespace CronInterpreter.EntidadesTempo
 {
     public class MesModel : TempoBase
     {
-        private string MesChar { get; set; }
+        private CronStruct CronString { get; set; }
 
         public MesModel(string cronjob, DateTime dateInicio)
         {
-            MesChar = cronjob.Split(' ')[3];
+            CronString = new CronStruct(cronjob);
             ProximoDisparo = dateInicio;
         }
 
         public DateTime CalcularProximaDateTime()
         {
             double mes = 0;
-            switch (ObterTipo(MesChar))
+            switch (CronString.GetType(CronString.Months))
             {
                 case CronType.AnyValue:
                     //mes = 0;
@@ -27,22 +27,22 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    mes = MesChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                    mes = CronString.Months.NextValueListSeparator(CronStruct.ValueListSeperator).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(month:(int)mes);
                     break;
 
                 case CronType.RangeOfValues:
-                    mes = MesChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                    mes = CronString.Months.NextRangeOfValues(CronStruct.RangeOfValues).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(month: (int)mes);
                     break;
 
                 case CronType.StepValues:
-                    mes = MesChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                    mes = CronString.Months.NextStepValues(CronStruct.StepValues).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(month: (int)mes);
                     break;
 
                 default:
-                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(ProximoDisparo.Date.Day, MesChar.ToInt(), ProximoDisparo.Date.Year);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(ProximoDisparo.Date.Day, CronString.Months.ToInt(), ProximoDisparo.Date.Year);
                     break;
             }
             return ProximoDisparo;

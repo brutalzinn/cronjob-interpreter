@@ -1,5 +1,4 @@
-﻿using CronInterpreter.EntidadesTempo.CronInterpreter.EntidadesTempo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +8,18 @@ namespace CronInterpreter.EntidadesTempo
 {
     public class DiaModel : TempoBase
     {
-        private string DiaMesChar { get; set; }
+        private CronStruct CronString { get; set; }
 
         public DiaModel(string cronjob, DateTime dateInicio)
         {
-            DiaMesChar = cronjob.Split(' ')[2];
+            CronString = new CronStruct(cronjob);
             ProximoDisparo = dateInicio;
         }
 
         public DateTime CalcularProximaDateTime()
         {
             double dias = 0;
-            switch (ObterTipo(DiaMesChar))
+            switch (CronString.GetType(CronString.Days))
             {
                 case CronType.AnyValue:
                    // dias = 0;
@@ -28,21 +27,21 @@ namespace CronInterpreter.EntidadesTempo
                     break;
 
                 case CronType.ValueListSeperator:
-                    dias = DiaMesChar.NextValueListSeparator(ValueListSeperator, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
+                    dias = CronString.Days.NextValueListSeparator(CronStruct.ValueListSeperator, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
 
                 case CronType.RangeOfValues:
-                    dias = DiaMesChar.NextRangeOfValues(RangeOfValues, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
+                    dias = CronString.Days.NextRangeOfValues(CronStruct.RangeOfValues, item => item > ProximoDisparo.Day).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
 
                 case CronType.StepValues:
-                    dias = DiaMesChar.NextStepValues(StepValues, item=> item > ProximoDisparo.Day, ProximoDisparo.GetMonthDays()).FirstOrDefault().GetValueOrDefault();
+                    dias = CronString.Days.NextStepValues(CronStruct.StepValues, item=> item > ProximoDisparo.Day, ProximoDisparo.GetMonthDays()).FirstOrDefault().GetValueOrDefault();
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch((int)dias);
                     break;
                 default:
-                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(DiaMesChar.ToInt(), ProximoDisparo.Date.Month, ProximoDisparo.Date.Year);
+                    ProximoDisparo = ProximoDisparo.CreateNextDispatch(CronString.Days.ToInt(), ProximoDisparo.Date.Month, ProximoDisparo.Date.Year);
                     break;
             }
             

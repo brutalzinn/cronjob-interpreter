@@ -1,5 +1,4 @@
 ﻿using CronInterpreter.EntidadesTempo;
-using CronInterpreter.EntidadesTempo.CronInterpreter.EntidadesTempo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,6 @@ namespace CronInterpreter
 {
     public class CronJob
     {
-        private string CronString { get; set; }
 
         private DateTime Minutos { get; set; }
         private DateTime Horas { get; set; }
@@ -26,7 +24,7 @@ namespace CronInterpreter
             Dias = new DiaModel(cronjob, dateInicio).CalcularProximaDateTime();
             Mes = new MesModel(cronjob, dateInicio).CalcularProximaDateTime();
             var diaSemana = new DiaSemanaModel(cronjob, dateInicio).CalcularProximaDateTime();
-            var calcDia = Dias.Date.Day + (diaSemana.Date.Day - Dias.Date.Day);
+            var calcDia = Dias.AddDays(diaSemana.Day).Day;
             //cuidado aqui...
             NovoDateTime = new DateTime(year: Dias.Year, month: Mes.Month, day: calcDia, hour: Horas.Hour, minute: Minutos.Minute, second: 0);
         }

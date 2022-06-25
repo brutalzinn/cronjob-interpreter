@@ -9,7 +9,7 @@ namespace CronInterpreter
         static void Main(string[] args)
         {
             //minuto, hora, dia, mês, dia da semana
-            var crontab = "* * * * *";
+            var crontab = "* * 10 * *";
             var dateTimeInicial = DateTime.Now;
 
             Console.WriteLine("Inicio");

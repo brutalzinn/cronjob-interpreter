@@ -4,52 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CronInterpreter.EntidadesTempo
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     namespace CronInterpreter.EntidadesTempo
     {
         public class DiaSemanaModel : TempoBase
         {
-            private string DiaSemanaChar { get; set; }
+            private CronStruct CronString { get; set; }
 
             public DiaSemanaModel(string cronjob, DateTime dateInicio)
             {
-                DiaSemanaChar = cronjob.Split(SpaceSeparator)[4];
+                CronString = new CronStruct(cronjob);
                 ProximoDisparo = dateInicio;
             }
 
             public DateTime CalcularProximaDateTime()
             {
                 double dias = 0;
-                switch (ObterTipo(DiaSemanaChar))
+                switch (CronString.GetType(CronString.DaysWeek))
                 {
                     case CronType.AnyValue:
-                        //dias = 0;
+                      //  dias = 0;
                         break;
 
                     case CronType.ValueListSeperator:
-                        dias = DiaSemanaChar.NextValueListSeparator(ValueListSeperator).FirstOrDefault().GetValueOrDefault();
+                        dias = CronString.DaysWeek.NextValueListSeparator(CronStruct.ValueListSeperator).FirstOrDefault().GetValueOrDefault();
                         ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
 
                     case CronType.RangeOfValues:
-                        dias = DiaSemanaChar.NextRangeOfValues(RangeOfValues).FirstOrDefault().GetValueOrDefault();
+                        dias = CronString.DaysWeek.NextRangeOfValues(CronStruct.RangeOfValues).FirstOrDefault().GetValueOrDefault();
                         ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
 
                     case CronType.StepValues:
-                        dias = DiaSemanaChar.NextStepValues(StepValues).FirstOrDefault().GetValueOrDefault();
+                        dias = CronString.DaysWeek.NextStepValues(CronStruct.StepValues).FirstOrDefault().GetValueOrDefault();
                         ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
                         break;
 
                     default:
-                        dias = double.Parse(DiaSemanaChar);
+                        dias = double.Parse(CronString.DaysWeek);
                         ProximoDisparo = ProximoDisparo.GetNextWeekday((DayOfWeek)dias.ToInt());
                         break;
                 }
@@ -61,4 +53,4 @@ namespace CronInterpreter.EntidadesTempo
         }
     }
 
-}
+
