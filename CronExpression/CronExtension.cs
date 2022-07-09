@@ -62,6 +62,11 @@ namespace CronInterpreter
             return DateTime.DaysInMonth(dateTime.Date.Year, dateTime.Date.Month);
         }
 
+        public static DateTime CreateWithoutSeconds(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Date.Year, dateTime.Date.Month, dateTime.Date.Day, dateTime.Hour, dateTime.Minute, 0);
+        }
+
         public static DateTime CreateNextDispatch(this DateTime dateTime, int? days = null, int? month = null, int? year = null, int? hours = null, int? minute = null, int? second = null)
         {
             return new DateTime(year.GetValueOrDefault(dateTime.Date.Year), month.GetValueOrDefault(dateTime.Date.Month), days.GetValueOrDefault(dateTime.Date.Day), hours.GetValueOrDefault(dateTime.Date.Hour), minute.GetValueOrDefault(dateTime.Date.Minute), second.GetValueOrDefault(dateTime.Date.Second));

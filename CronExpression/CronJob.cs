@@ -24,7 +24,11 @@ namespace CronInterpreter
             Dias = new DiaModel(cronjob, dateInicio).CalcularProximaDateTime();
             Mes = new MesModel(cronjob, dateInicio).CalcularProximaDateTime();
             var diaSemana = new DiaSemanaModel(cronjob, dateInicio).CalcularProximaDateTime();
-            var calcDia = Dias.AddDays(diaSemana.Day).Day;
+            int calcDia = Dias.Day;        
+            if (diaSemana.Day != DateTime.Now.Day)
+            {
+                calcDia = Dias.AddDays(diaSemana.Day).Day;
+            }
             //cuidado aqui...
             NovoDateTime = new DateTime(year: Dias.Year, month: Mes.Month, day: calcDia, hour: Horas.Hour, minute: Minutos.Minute, second: 0);
         }
