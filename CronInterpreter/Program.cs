@@ -8,19 +8,18 @@ namespace CronInterpreter
         static void Main(string[] args)
         {
             //minuto, hora, dia, mês, dia da semana
-            var crontab = "20-25 * * * *";
+            var crontab = "* * * * *";
 
             var teste = new CronJob(crontab, DateTime.Now);
             while (true)
             {
-               var atual = DateTime.Now.CreateWithoutSeconds();
-               if (atual == teste.NovoDateTime)
+                if(teste.IsDispatchTime())
                 {
-                    Console.WriteLine("Disparooo", DateTime.Now);
-                    teste = new CronJob(crontab, DateTime.Now);
+                    Console.WriteLine(string.Format("Disparoo {0}", DateTime.Now));
                 }
+                Console.WriteLine(string.Format("Tempo atual {0}", DateTime.Now));
 
-               Thread.Sleep(1000);
+                Thread.Sleep(1000);
             }
         }
     }
