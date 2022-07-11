@@ -24,7 +24,7 @@ namespace CronInterpreter.EntidadesTempo
             {
                 case CronType.AnyValue:
                     ProximoDisparo = ProximoDisparo.CreateNextDispatch(minute: ProximoDisparo.Minute + 1);
-                break;
+                    break;
 
                 case CronType.ValueListSeperator:
                     minutes = CronString.Minutes.NextValueListSeparator(CronStruct.ValueListSeperator, item=> item > ProximoDisparo.Minute).FirstOrDefault().GetValueOrDefault();
