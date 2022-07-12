@@ -1,4 +1,7 @@
 # C# CRON EXPRESSION INTERPRETER
+[![Deploy Nuget](https://github.com/brutalzinn/cronjob-interpreter/actions/workflows/deploy.yml/badge.svg)](https://github.com/brutalzinn/cronjob-interpreter/actions/workflows/deploy.yml)
+
+Link Nuget: https://www.nuget.org/packages/CronExpression/
 
 ### RESUMO
 
