@@ -18,19 +18,16 @@ namespace CronInterpreter
 
         public string CronString { get; set; }
 
+        public CronJob()
+        {
 
+        }
         //(int year, int month, int day, int hour, int minute, int second)
         public CronJob(string cronString, DateTime dateInicio)
         {
             DateInicio = dateInicio.CreateWithoutSeconds();
             CronString = cronString;
         }
-
-        public CronJob()
-        {
-
-        }
-
         public DateTime CalcularTempo()
         {
             Minutos = new MinutosModel(CronString, DateInicio).CalcularProximaDateTime();
@@ -39,18 +36,17 @@ namespace CronInterpreter
             Mes = new MesModel(CronString, DateInicio).CalcularProximaDateTime();
             var diaSemana = new DiaSemanaModel(CronString, DateInicio).CalcularProximaDateTime();
             int calcDia = Dias.Day;
-            if (diaSemana.Day != DateTime.Now.Day)
+            if (diaSemana.Day != DateInicio.Day)
             {
-                calcDia = Dias.AddDays(diaSemana.Day).Day;
+                calcDia = Dias.AddDays(diaSemana.Day - Dias.Day).Day;
             }
-            //cuidado aqui...
             return new DateTime(year: Dias.Year, month: Mes.Month, day: calcDia, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
         }
 
-        public bool IsDispatchTime()
+        public bool IsDispatchTime(DateTime? dateTime = null)
         {
             var tempoCalc = CalcularTempo();
-            DateInicio = DateTime.Now.CreateWithoutSeconds();
+            DateInicio = dateTime.GetValueOrDefault(DateTime.Now.CreateWithoutSeconds()).CreateWithoutSeconds();
             if (tempoCalc == DateInicio)
             {
                 return true;
