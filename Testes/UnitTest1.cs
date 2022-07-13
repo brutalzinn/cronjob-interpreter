@@ -45,7 +45,11 @@ namespace Testes
         }
         //executar toda segunda feira, às 14:30
         [Theory]
-        [InlineData("30 14 * * 1", "12/07/2022","18/07/2022 14:30")]
+        [InlineData("30 14 * * 1", "11/07/2022", "18/07/2022 14:30")]
+        [InlineData("30 14 * * 1", "13/07/2022", "18/07/2022 14:30")]
+        [InlineData("30 14 * * 1", "18/07/2022", "25/07/2022 14:30")]
+        [InlineData("30 14 * * 1", "25/07/2022", "01/08/2022 14:30")]
+
         public void ExpressaoComplexaUm(string cronExpression, string dataInicio, string dataFinal)
         {
             var dataTime = DateTime.Parse(dataInicio);

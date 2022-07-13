@@ -22,12 +22,17 @@ namespace CronInterpreter
         {
 
         }
-        //(int year, int month, int day, int hour, int minute, int second)
+        /// <summary>
+        /// CronJob() é a representação de uma CronExpression.
+        /// </summary>
+        /// <param name="cronString">Expressão cron em string</param>
+        /// <param name="dateInicio">DateTime usado como base para os cálculos de comparação</param>
         public CronJob(string cronString, DateTime dateInicio)
         {
             DateInicio = dateInicio.CreateWithoutSeconds();
             CronString = cronString;
         }
+
         public DateTime CalcularTempo()
         {
             Minutos = new MinutosModel(CronString, DateInicio).CalcularProximaDateTime();
@@ -35,14 +40,19 @@ namespace CronInterpreter
             Dias = new DiaModel(CronString, DateInicio).CalcularProximaDateTime();
             Mes = new MesModel(CronString, DateInicio).CalcularProximaDateTime();
             var diaSemana = new DiaSemanaModel(CronString, DateInicio).CalcularProximaDateTime();
-            int calcDia = Dias.Day;
-            if (diaSemana.Day != DateInicio.Day)
-            {
-                calcDia = Dias.AddDays(diaSemana.Day - Dias.Day).Day;
-            }
-            return new DateTime(year: Dias.Year, month: Mes.Month, day: calcDia, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
+            var timeSpan = diaSemana.Subtract(Dias);
+            Mes = Mes.Add(timeSpan);
+            Dias = Dias.Add(timeSpan);
+            
+            return new DateTime(year: Dias.Year, month: Mes.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
         }
 
+        /// <summary>
+        /// Metódo responsável pela comparação de DateTime data uma data a ser comparada na instância do CronJob ou passada aqui
+        /// Caso o param seja null, o DateTime será um DateTime.Now
+        /// </summary>
+        /// <param name="dateTime">Data a ser comparada</param>
+        /// <returns></returns>
         public bool IsDispatchTime(DateTime? dateTime = null)
         {
             var tempoCalc = CalcularTempo();

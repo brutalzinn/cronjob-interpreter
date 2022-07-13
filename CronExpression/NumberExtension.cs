@@ -14,5 +14,10 @@ namespace CronInterpreter
             int.TryParse(value.ToString(), out resultado);
             return resultado;
         }
+
+        public static DayOfWeek ToDayOfWeeks(this string toDay)
+        {
+            return (DayOfWeek)toDay.ToInt();
+        }
     }
 }

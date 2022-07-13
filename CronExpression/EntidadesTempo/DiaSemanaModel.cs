@@ -41,8 +41,8 @@ using System.Threading.Tasks;
                         break;
 
                     default:
-                        dias = double.Parse(CronString.DaysWeek);
-                        ProximoDisparo = ProximoDisparo.GetNextWeekday((DayOfWeek)dias.ToInt());
+            
+                        ProximoDisparo = ProximoDisparo.AddDays(1).GetNextWeekday(CronString.DaysWeek.ToDayOfWeeks());
                         break;
                 }
                 return ProximoDisparo;

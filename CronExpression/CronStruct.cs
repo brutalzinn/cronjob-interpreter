@@ -27,6 +27,7 @@ namespace CronInterpreter
             Days = cronjob.Split(SpaceSeparator)[2];
             Months = cronjob.Split(SpaceSeparator)[3];
             DaysWeek = cronjob.Split(SpaceSeparator)[4];
+                
         }
 
         public CronType GetType(string value)

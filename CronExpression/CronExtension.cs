@@ -72,10 +72,11 @@ namespace CronInterpreter
             return new DateTime(year.GetValueOrDefault(dateTime.Date.Year), month.GetValueOrDefault(dateTime.Date.Month), days.GetValueOrDefault(dateTime.Date.Day), hours.GetValueOrDefault(dateTime.Hour), minute.GetValueOrDefault(dateTime.Minute), second.GetValueOrDefault(dateTime.Second));
         }
         //https://stackoverflow.com/questions/6346119/datetime-get-next-tuesday
-        public static DateTime GetNextWeekday(this DateTime dateTime, DayOfWeek day)
+        public static DateTime GetNextWeekday(this DateTime start, DayOfWeek day)
         {
-            int daysToAdd = ((int)day - (int)dateTime.DayOfWeek + 7) % 7;
-            return dateTime.AddDays(daysToAdd);
+            // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
+            int daysToAdd = ((int)day - (int)start.Date.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
         }
     }
 }
