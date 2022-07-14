@@ -37,6 +37,27 @@ namespace CronInterpreter
             return data.Select(e => (double?)e).ToList();
         }
 
+        public static IEnumerable<DateTime> NextRangeValuesByWeeks(this string value, DateTime dateBase,char seperator)
+        {
+            var listaChars = value.Split(seperator).Select(e => e.ToInt()).OrderBy(d => d).ToList();
+
+            var primeiroDia = listaChars.First();
+            var ultimoDia = listaChars.Last();
+            List<DateTime> data = new List<DateTime>();
+            List<int> teste = new List<int>();
+            for(int i = primeiroDia; i <= ultimoDia; i++)
+            {
+                if(i >= primeiroDia && i <= ultimoDia)
+                {
+                    teste.Add(i);
+                    data.Add(dateBase.GetNextWeekday((DayOfWeek)i));
+                }
+            }
+            var resultado = data.OrderBy(x => x.Date);
+
+            return resultado;
+        }
+
         public static IEnumerable<double?> NextStepValues(this string value, char seperator,Func<int,bool> extraCondition = null, int maxRange = 59)
         {
             var listaChars = value.Split(seperator).ToList();

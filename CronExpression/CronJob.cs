@@ -44,7 +44,8 @@ namespace CronInterpreter
             Mes = Mes.Add(timeSpan);
             Dias = Dias.Add(timeSpan);
             
-            return new DateTime(year: Dias.Year, month: Mes.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
+            var resultado = new DateTime(year: Dias.Year, month: Mes.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
+            return resultado;
         }
 
         /// <summary>
