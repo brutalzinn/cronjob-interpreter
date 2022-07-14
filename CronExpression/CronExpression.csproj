@@ -7,7 +7,6 @@
 	  <PackageIcon></PackageIcon>
 	  <RepositoryType></RepositoryType>
 	  <RepositoryUrl>https://github.com/brutalzinn/cronjob-interpreter</RepositoryUrl>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageProjectUrl>https://robertocpaes.dev/projetos/croninterpreter</PackageProjectUrl>
 	  <PackageReadmeFile>README.MD</PackageReadmeFile>
   </PropertyGroup>
