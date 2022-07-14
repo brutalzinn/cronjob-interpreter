@@ -15,14 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
     - uses: actions/checkout@v2
     - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.0.x'
 
-    - name: Altera TZ para America/Sao_Paulo
     - uses: szenius/set-timezone@v1.0
       with:
         timezoneLinux: "America/Sao_Paulo"
