@@ -13,7 +13,7 @@ jobs:
       CAMINHO_PROJETO_TESTES: ./Testes/Testes.csproj
       TIMEZONE_TZ: "America/Sao_Paulo"
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
