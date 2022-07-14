@@ -31,8 +31,8 @@ using System.Threading.Tasks;
                         break;
 
                     case CronType.RangeOfValues:
-                        dias = CronString.DaysWeek.NextRangeOfValues(CronStruct.RangeOfValues).FirstOrDefault().GetValueOrDefault();
-                        ProximoDisparo = ProximoDisparo.CreateNextDispatch(days: (int)dias);
+                        ProximoDisparo = CronString.DaysWeek.NextRangeValuesByWeeks(ProximoDisparo, CronStruct.RangeOfValues).FirstOrDefault();
+                 
                         break;
 
                     case CronType.StepValues:
