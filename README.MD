@@ -12,5 +12,5 @@ E foi baseado na regra descrita em: https://crontab.guru/
 
 O objetivo é interpretar uma string como o exemplo "* * * * *" para executar tarefas repetitivas.
 
-Onde minuto hora dia mes dia-da-semana são separados por espaço e podem ser interpretados para uma regra de negócio específica.
+Onde minuto hora dia mes dia-da-semana são separados por espaço e podem ser interpretados para um DateTime. Assim é possível utilizar em tarefas em background
 
