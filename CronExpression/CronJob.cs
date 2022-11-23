@@ -43,7 +43,7 @@ namespace CronInterpreter
             var timeSpan = diaSemana.Subtract(Dias);
             Mes = Mes.Add(timeSpan);
             Dias = Dias.Add(timeSpan);
-            
+
             var resultado = new DateTime(year: Dias.Year, month: Mes.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
             return resultado;
         }
@@ -58,7 +58,7 @@ namespace CronInterpreter
         {
             var tempoCalc = CalcularTempo();
             DateInicio = dateTime.GetValueOrDefault(DateTime.Now.CreateWithoutSeconds()).CreateWithoutSeconds();
-            if (tempoCalc == DateInicio)
+            if (tempoCalc == DateInicio || tempoCalc.Minute == 1)
             {
                 return true;
             }

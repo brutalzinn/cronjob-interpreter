@@ -88,5 +88,45 @@ namespace Testes
 
             Assert.True(cronJob.IsDispatchTime(dataDisparo));
         }
+
+        [UseCulture("pt-BR")]
+        [Fact]
+        public void ExpressaoMeuAniversario()
+        {
+            var cronExpression = "* * 16 2 *";
+            var dataTime = "16/02/2000 23:00:00";
+            var dataDisparo = "16/02/2023 23:00:00";
+
+
+            var cronJob = new CronJob(cronExpression, DateTime.Parse(dataTime));
+
+            Assert.True(cronJob.IsDispatchTime(DateTime.Parse(dataDisparo)));
+        }
+
+        [UseCulture("pt-BR")]
+        [Fact]
+        public void ExpressaoPrimeiroDiaDoMes()
+        {
+            var cronExpression = "0 22 * * 1-5";
+            var dataInicio = "22/11/2022 21:06:00";
+            var dataDisparo = "22/11/2022 22:00:00";
+
+            var cronJob = new CronJob(cronExpression, DateTime.Parse(dataInicio));
+            var deveDisparar = cronJob.IsDispatchTime(DateTime.Parse(dataDisparo));
+            Assert.True(deveDisparar);
+        }
+
+        [UseCulture("pt-BR")]
+        [Fact]
+        public void ExpressaoExecutaTodoSabadoEmHoraEspecifica()
+        {
+            var cronExpression = "5 4 * * 7";
+            var dataInicio = "22/11/2022 21:07:00";
+            var dataDisparo = "27/11/2022 04:05:00";
+
+            var cronJob = new CronJob(cronExpression, DateTime.Parse(dataInicio));
+            var deveDisparar = cronJob.IsDispatchTime(DateTime.Parse(dataDisparo));
+            Assert.True(deveDisparar);
+        }
     }
 }
