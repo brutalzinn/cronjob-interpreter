@@ -1,4 +1,4 @@
-﻿using CronInterpreter.EntidadesTempo;
+﻿using CronExpression.EntidadesTempo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +9,8 @@ namespace CronInterpreter
 {
     public class CronJob
     {
-
-        private DateTime Minutos { get; set; }
-        private DateTime Horas { get; set; }
-        private DateTime Dias { get; set; }
-        private DateTime Mes { get; set; }
         private DateTime DateInicio { get; set; }
-
-        public string CronString { get; set; }
+        public CronStringStruct CronString { get; set; }
 
         public CronJob()
         {
@@ -27,38 +21,39 @@ namespace CronInterpreter
         /// </summary>
         /// <param name="cronString">Expressão cron em string</param>
         /// <param name="dateInicio">DateTime usado como base para os cálculos de comparação</param>
-        public CronJob(string cronString, DateTime dateInicio)
+        public CronJob(string cronString, DateTime dataInicio)
         {
-            DateInicio = dateInicio.CreateWithoutSeconds();
-            CronString = cronString;
+            DateInicio = dataInicio.CreateWithoutSeconds();
+            CronString = CronStringStruct.Parse(cronString);
         }
 
-        public DateTime CalcularTempo()
+        public CronJob(string cronString)
         {
-            Minutos = new MinutosModel(CronString, DateInicio).CalcularProximaDateTime();
-            Horas = new HorasModel(CronString, DateInicio).CalcularProximaDateTime();
-            Dias = new DiaModel(CronString, DateInicio).CalcularProximaDateTime();
-            Mes = new MesModel(CronString, DateInicio).CalcularProximaDateTime();
-            var diaSemana = new DiaSemanaModel(CronString, DateInicio).CalcularProximaDateTime();
-            var timeSpan = diaSemana.Subtract(Dias);
-            Mes = Mes.Add(timeSpan);
-            Dias = Dias.Add(timeSpan);
-
-            var resultado = new DateTime(year: Dias.Year, month: Mes.Month, day: Dias.Day, hour: Horas.Hour, minute: Minutos.Minute, second: 0).CreateWithoutSeconds();
-            return resultado;
+            DateInicio = DateTime.Now.CreateWithoutSeconds();
+            CronString = CronStringStruct.Parse(cronString);
         }
 
-        /// <summary>
-        /// Metódo responsável pela comparação de DateTime data uma data a ser comparada na instância do CronJob ou passada aqui
-        /// Caso o param seja null, o DateTime será um DateTime.Now
-        /// </summary>
-        /// <param name="dateTime">Data a ser comparada</param>
-        /// <returns></returns>
-        public bool IsDispatchTime(DateTime? dateTime = null)
+
+        public DateTime CalcularProximoDisparo()
         {
-            var tempoCalc = CalcularTempo();
-            DateInicio = dateTime.GetValueOrDefault(DateTime.Now.CreateWithoutSeconds()).CreateWithoutSeconds();
-            if (tempoCalc == DateInicio || tempoCalc.Minute == 1)
+            var proximoDisparo = DateInicio;
+
+            var entidadeMinuto = new CalculaProximoMinuto(CronString);
+            var entidadeHora = new CalculaProximaHora(CronString);
+
+            var proximoMinuto = entidadeMinuto.CalcularProximoMinuto(proximoDisparo);
+            var proximaHora = entidadeHora.CalcularProximaHora(proximoDisparo);
+
+            proximoDisparo = proximoDisparo.RecreateWithTime(proximaHora.Hours, proximoMinuto.Minutes);
+
+            return proximoDisparo;
+        }
+
+        public bool IsDispatchTime(DateTime? dataDisparo = null)
+        {
+            var tempoCalc = CalcularProximoDisparo();
+            DateInicio = dataDisparo.GetValueOrDefault(DateTime.Now).CreateWithoutSeconds();
+            if (tempoCalc == DateInicio)
             {
                 return true;
             }

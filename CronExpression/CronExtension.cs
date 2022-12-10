@@ -7,37 +7,23 @@ namespace CronInterpreter
     public static class CronExtension
     {
 
-        public static IEnumerable<double?> NextValueListSeparator(this string value, char seperator, Func<double?, bool> extraCondition = null)
+        public static IEnumerable<int> NextValueListSeparator(this CronStringStruct cronStruct, string value, Func<int?, bool> extraCondition = null)
         {
-            var listaChars = value.Split(seperator).Select(e => e.ToDouble());
-
+            var listaChars = value.Split(cronStruct.GetSeparator(CronType.ValueListSeperator)).Select(e => e.ToInt());
             if (extraCondition != null)
             {
-                return listaChars.Where(item => extraCondition!(item)).ToList().OrderBy(d => d).ToList();
+                return listaChars.Where(item => extraCondition!(item)).ToList().OrderBy(d => d);
             }
-            return listaChars.ToList().OrderBy(d => d).ToList();
+            return listaChars.ToList().OrderBy(d => d);
         }
 
-        public static IEnumerable<double?> NextRangeOfValues(this string value, char seperator, Func<int, bool> extraCondition = null)
+        public static IEnumerable<int> NextRangeOfValues(this CronStringStruct cronStruct, string value, Func<int, bool> extraCondition = null)
         {
-            var listaChars = value.Split(seperator).Select(e => e.ToInt()).OrderBy(d => d).ToList();
-
-            var primeiroMinuto = listaChars.First();
-            var ultimoMinuto = listaChars.Last();
-            IEnumerable<int> data;
-
-            data = Enumerable.Range(listaChars.First(), listaChars.Last()).Where(item => item <= listaChars.Last());
-
-            if (extraCondition != null)
-            {
-                data = Enumerable.Range(listaChars.First(), listaChars.Last()).Where(item => extraCondition(item) && item <= listaChars.Last());
-                return data.Select(e => (double?)e).ToList();
-            }
-
-            return data.Select(e => (double?)e).ToList();
+            var listChars = value.Split(cronStruct.GetSeparator(CronType.RangeOfValues)).Select(e => e.ToInt()).ToList().OrderBy(d => d);
+            return listChars.ToList();
         }
 
-        public static IEnumerable<DateTime> NextRangeValuesByWeeks(this string value, DateTime dateBase,char seperator)
+        public static IEnumerable<DateTime> NextRangeValuesByWeeks(this string value, DateTime dateBase, char seperator)
         {
             var listaChars = value.Split(seperator).Select(e => e.ToInt()).OrderBy(d => d).ToList();
 
@@ -45,9 +31,9 @@ namespace CronInterpreter
             var ultimoDia = listaChars.Last();
             List<DateTime> data = new List<DateTime>();
             List<int> teste = new List<int>();
-            for(int i = primeiroDia; i <= ultimoDia; i++)
+            for (int i = primeiroDia; i <= ultimoDia; i++)
             {
-                if(i >= primeiroDia && i <= ultimoDia)
+                if (i >= primeiroDia && i <= ultimoDia)
                 {
                     teste.Add(i);
                     data.Add(dateBase.GetNextWeekday((DayOfWeek)i));
@@ -58,24 +44,21 @@ namespace CronInterpreter
             return resultado;
         }
 
-        public static IEnumerable<double?> NextStepValues(this string value, char seperator,Func<int,bool> extraCondition = null, int maxRange = 59)
+        public static IEnumerable<int> NextStepValues(this CronStringStruct cronStruct, string value, Func<int, int, bool> extraCondition = null, int maxRange = 59)
         {
-            var listaChars = value.Split(seperator).ToList();
+            var listaChars = value.Split(cronStruct.GetSeparator(CronType.StepValues)).ToList();
 
-            int inicioChar = listaChars.First() != "*" ? listaChars.First().ToInt() : 1;
+            int inicioChar = listaChars.First() != "*" ? listaChars.First().ToInt() : 0;
             int posicaoChar = listaChars.Last().ToInt();
             IEnumerable<int> data;
 
-
             if (extraCondition != null)
             {
-                data = Enumerable.Range(inicioChar, maxRange).Where((item, i) => extraCondition(item) && i % posicaoChar == 0);
-                return data.Select(e => (double?)e).ToList();
+                data = Enumerable.Range(inicioChar, maxRange).Where((item, i) => extraCondition(item, posicaoChar));
             }
 
-            data = Enumerable.Range(inicioChar, maxRange).Where((item, i) => i % posicaoChar == 0);
-
-            return data.Select(e => (double?)e).ToList();
+            data = Enumerable.Range(inicioChar, maxRange).Where((item, i) => item > 0 && (i % posicaoChar == 0)).ToList();
+            return data;
         }
 
         public static int GetMonthDays(this DateTime dateTime)
@@ -88,9 +71,14 @@ namespace CronInterpreter
             return new DateTime(dateTime.Date.Year, dateTime.Date.Month, dateTime.Date.Day, dateTime.Hour, dateTime.Minute, 0);
         }
 
-        public static DateTime CreateNextDispatch(this DateTime dateTime, int? days = null, int? month = null, int? year = null, int? hours = null, int? minute = null, int? second = null)
+        public static DateTime CreateWithoutTime(this DateTime dateTime)
         {
-            return new DateTime(year.GetValueOrDefault(dateTime.Date.Year), month.GetValueOrDefault(dateTime.Date.Month), days.GetValueOrDefault(dateTime.Date.Day), hours.GetValueOrDefault(dateTime.Hour), minute.GetValueOrDefault(dateTime.Minute), second.GetValueOrDefault(dateTime.Second));
+            return new DateTime(dateTime.Date.Year, dateTime.Date.Month, dateTime.Date.Day, 0, 0, 0);
+        }
+
+        public static DateTime RecreateWithTime(this DateTime dateTime, int hours, int minute)
+        {
+            return new DateTime(dateTime.Date.Year, dateTime.Date.Month, dateTime.Date.Day, hours, minute, 0);
         }
         //https://stackoverflow.com/questions/6346119/datetime-get-next-tuesday
         public static DateTime GetNextWeekday(this DateTime start, DayOfWeek day)
